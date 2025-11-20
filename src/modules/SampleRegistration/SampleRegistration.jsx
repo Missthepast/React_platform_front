@@ -1,13 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Plus, Upload as UploadIcon, Filter, Eye, Edit, Trash2, Search, X, ChevronUp, ChevronDown, AlertTriangle, ArrowUpDown } from 'lucide-react';
 import SingleRegistrationForm from './components/SingleRegistrationForm';
 import BulkRegistrationForm from './components/BulkRegistrationForm';
 import CustomDatePicker from '../../components/Shared/CustomDatePicker';
 
-// --- 1. 模拟数据生成 (保持不变) ---
+// --- 1. 模拟数据生成 (优化：只保留 Draft 和 Submitted) ---
 const generateMockData = () => {
     const data = [];
-    const statuses = ['Submitted', 'Draft', 'Processing'];
+    const statuses = ['Submitted', 'Draft']; // 需求点3：状态只有 Draft 和 Submitted
     const types = ['Blood', 'Saliva', 'Tissue'];
     for (let i = 1; i <= 35; i++) {
         const pad = (n) => n.toString().padStart(3, '0');
@@ -18,7 +18,7 @@ const generateMockData = () => {
             colDate: `2024-11-${(i % 30) + 1}`,
             regDate: `2024-11-${(i % 20) + 1}`,
             inst: i % 2 === 0 ? 'General Hospital' : 'Research Center',
-            status: statuses[i % 3],
+            status: statuses[i % 2],
             doctor: `Dr. Smith ${i}`
         });
     }
@@ -31,7 +31,6 @@ const SampleRegistration = () => {
     const [samples, setSamples] = useState(generateMockData());
 
     const [showFilters, setShowFilters] = useState(false);
-    // 默认按录入时间倒序
     const [sortConfig, setSortConfig] = useState({ key: 'regDate', direction: 'desc' });
     const [filterRegDate, setFilterRegDate] = useState('');
 
@@ -42,37 +41,47 @@ const SampleRegistration = () => {
     const [selectedRowId, setSelectedRowId] = useState(null);
     const [modal, setModal] = useState({ type: null, data: null });
 
+    // --- 需求点4：ESC 键关闭模态框 ---
+    useEffect(() => {
+        const handleEscKey = (event) => {
+            if (event.key === 'Escape' && modal.type) {
+                closeModal();
+            }
+        };
+        window.addEventListener('keydown', handleEscKey);
+        return () => window.removeEventListener('keydown', handleEscKey);
+    }, [modal]);
+
     // --- 辅助组件: 状态标签 ---
     const getStatusBadge = (status) => {
         const styles = {
             Submitted: { bg: '#E8F5E9', color: '#2E7D32' },
             Draft: { bg: '#E3F2FD', color: '#1565C0' },
-            Processing: { bg: '#FFF3E0', color: '#EF6C00' }
         };
         const s = styles[status] || styles.Draft;
         return <span style={{ background: s.bg, color: s.color, padding: '4px 12px', borderRadius: '12px', fontSize: '12px', fontWeight: 600 }}>{status}</span>;
     };
 
-    // --- 排序逻辑 (已修复) ---
+    // --- 排序逻辑 ---
     const sortedSamples = useMemo(() => {
         let sortableItems = [...samples];
+
+        // 筛选逻辑 (简单实现)
+        if (filterRegDate) {
+            sortableItems = sortableItems.filter(item => item.regDate === filterRegDate);
+        }
+
         if (sortConfig.key) {
             sortableItems.sort((a, b) => {
                 const valA = a[sortConfig.key];
                 const valB = b[sortConfig.key];
-
-                // 1. 如果是日期列，转换为时间戳进行比较
                 if (sortConfig.key === 'regDate' || sortConfig.key === 'colDate') {
                     const dateA = new Date(valA).getTime();
                     const dateB = new Date(valB).getTime();
                     return sortConfig.direction === 'asc' ? dateA - dateB : dateB - dateA;
                 }
-
-                // 2. 其他列（如 ID），使用 localeCompare 的 numeric 模式
-                // 这样可以确保 "SMP-2" 排在 "SMP-10" 前面
                 const strA = String(valA);
                 const strB = String(valB);
-
                 if (sortConfig.direction === 'asc') {
                     return strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
                 } else {
@@ -81,7 +90,7 @@ const SampleRegistration = () => {
             });
         }
         return sortableItems;
-    }, [samples, sortConfig]);
+    }, [samples, sortConfig, filterRegDate]); // 依赖项加入 filterRegDate
 
     const totalPages = Math.ceil(sortedSamples.length / rowsPerPage);
     const currentTableData = sortedSamples.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
@@ -120,11 +129,39 @@ const SampleRegistration = () => {
     const openEdit = (item) => { setSelectedRowId(item.id); setModal({ type: 'edit', data: { ...item } }); };
     const openDelete = (item) => { setSelectedRowId(item.id); setModal({ type: 'delete', data: item }); };
     const closeModal = () => setModal({ type: null, data: null });
-    const confirmDelete = () => { setSamples(samples.filter(s => s.id !== modal.data.id)); closeModal(); };
-    const saveEdit = () => {
-        if (!modal.data.pid || !modal.data.type) { alert("Please fill in all required fields."); return; }
-        setSamples(samples.map(s => s.id === modal.data.id ? modal.data : s)); closeModal();
+
+    const confirmDelete = () => {
+        setSamples(samples.filter(s => s.id !== modal.data.id));
+        closeModal();
     };
+
+    // --- 需求点1 & 2: 处理保存/提交逻辑 ---
+    const handleSaveOrSubmit = (targetStatus) => {
+        // 1. 校验 (Submit 时必须校验，Save Draft 可选，这里简单起见都校验必填项)
+        if (!modal.data.pid || !modal.data.type) {
+            alert("Patient ID and Sample Type are required.");
+            return;
+        }
+        if (targetStatus === 'Submitted' && !modal.data.colDate) {
+            alert("Collection Date is required for submission.");
+            return;
+        }
+
+        // 2. 自动生成当前日期 (YYYY-MM-DD)
+        const now = new Date();
+        const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+        // 3. 构造更新后的对象
+        const updatedItem = {
+            ...modal.data,
+            status: targetStatus, // 更新状态 (Draft -> Draft/Submitted)
+            regDate: todayStr     // 需求点2: 自动更新录入时间
+        };
+
+        setSamples(samples.map(s => s.id === modal.data.id ? updatedItem : s));
+        closeModal();
+    };
+
     const handleJumpPage = () => {
         const page = parseInt(jumpPage);
         if (page >= 1 && page <= totalPages) { setCurrentPage(page); setJumpPage(''); }
@@ -191,6 +228,7 @@ const SampleRegistration = () => {
                             <label style={{ fontSize: '12px', marginBottom: '4px' }}>Status</label>
                             <select className="form-input" style={{ background: 'white' }}><option>All statuses</option></select>
                         </div>
+                        {/* 需求点2: 列表筛选中已有 Registration Date */}
                         <div className="form-group" style={{ width: '180px' }}>
                             <label style={{ fontSize: '12px', marginBottom: '4px' }}>Registration Date</label>
                             <CustomDatePicker value={filterRegDate} onChange={setFilterRegDate} placeholder="yyyy-mm-dd" />
@@ -279,7 +317,7 @@ const SampleRegistration = () => {
                 </div>
             </div>
 
-            {/* Modals (Details, Edit, Delete) */}
+            {/* Modals */}
             {modal.type && (
                 <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {modal.type === 'details' && (
@@ -335,9 +373,36 @@ const SampleRegistration = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* 需求点1: 修改弹窗底部的按钮逻辑 */}
                             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px', borderTop: '1px solid #eee', paddingTop: '16px' }}>
                                 <button className="btn btn-outline" onClick={closeModal}>Cancel</button>
-                                <button className="btn btn-primary" onClick={saveEdit}>Save</button>
+
+                                {modal.data.status === 'Draft' ? (
+                                    <>
+                                        <button
+                                            className="btn"
+                                            style={{ background: '#F57C00', color: 'white', border: 'none' }}
+                                            onClick={() => handleSaveOrSubmit('Draft')} // 保存为 Draft
+                                        >
+                                            Save Changes
+                                        </button>
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={() => handleSaveOrSubmit('Submitted')} // 提交为 Submitted
+                                        >
+                                            Submit
+                                        </button>
+                                    </>
+                                ) : (
+                                    // 如果已经是 Submitted，通常只允许保存修改（保持 Submitted）
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={() => handleSaveOrSubmit('Submitted')}
+                                    >
+                                        Save Changes
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}
