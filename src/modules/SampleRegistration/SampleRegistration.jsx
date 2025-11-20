@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, memo } from 'react';
 import { Plus, Upload as UploadIcon, Filter, Eye, Edit, Trash2, Search, X, ChevronUp, ChevronDown, AlertTriangle, ArrowUpDown } from 'lucide-react';
 import SingleRegistrationForm from './components/SingleRegistrationForm';
 import BulkRegistrationForm from './components/BulkRegistrationForm';
@@ -95,16 +95,19 @@ const SampleRegistration = () => {
     const totalPages = Math.ceil(sortedSamples.length / rowsPerPage);
     const currentTableData = sortedSamples.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
-    const handleSort = (key) => {
-        let direction = 'asc';
-        if (sortConfig.key === key && sortConfig.direction === 'asc') {
-            direction = 'desc';
-        }
-        setSortConfig({ key, direction });
-    };
+    // Memoized sort handler to prevent unnecessary re-renders
+    const handleSort = useCallback((key) => {
+        setSortConfig(prevConfig => {
+            let direction = 'asc';
+            if (prevConfig.key === key && prevConfig.direction === 'asc') {
+                direction = 'desc';
+            }
+            return { key, direction };
+        });
+    }, []);
 
-    // --- 辅助组件: 可排序表头 ---
-    const SortableHeader = ({ label, field, width }) => {
+    // --- 辅助组件: 可排序表头 (Memoized for performance) ---
+    const SortableHeader = memo(({ label, field, width }) => {
         const isSorted = sortConfig.key === field;
         return (
             <th
@@ -121,22 +124,35 @@ const SampleRegistration = () => {
                 </div>
             </th>
         );
-    };
+    });
 
-    // --- 交互逻辑 ---
-    const handleRowClick = (id) => setSelectedRowId(id);
-    const openDetails = (item) => { setSelectedRowId(item.id); setModal({ type: 'details', data: item }); };
-    const openEdit = (item) => { setSelectedRowId(item.id); setModal({ type: 'edit', data: { ...item } }); };
-    const openDelete = (item) => { setSelectedRowId(item.id); setModal({ type: 'delete', data: item }); };
-    const closeModal = () => setModal({ type: null, data: null });
+    // --- 交互逻辑 (Memoized with useCallback) ---
+    const handleRowClick = useCallback((id) => setSelectedRowId(id), []);
 
-    const confirmDelete = () => {
-        setSamples(samples.filter(s => s.id !== modal.data.id));
+    const openDetails = useCallback((item) => {
+        setSelectedRowId(item.id);
+        setModal({ type: 'details', data: item });
+    }, []);
+
+    const openEdit = useCallback((item) => {
+        setSelectedRowId(item.id);
+        setModal({ type: 'edit', data: { ...item } });
+    }, []);
+
+    const openDelete = useCallback((item) => {
+        setSelectedRowId(item.id);
+        setModal({ type: 'delete', data: item });
+    }, []);
+
+    const closeModal = useCallback(() => setModal({ type: null, data: null }), []);
+
+    const confirmDelete = useCallback(() => {
+        setSamples(prevSamples => prevSamples.filter(s => s.id !== modal.data.id));
         closeModal();
-    };
+    }, [modal.data, closeModal]);
 
     // --- 需求点1 & 2: 处理保存/提交逻辑 ---
-    const handleSaveOrSubmit = (targetStatus) => {
+    const handleSaveOrSubmit = useCallback((targetStatus) => {
         // 1. 校验 (Submit 时必须校验，Save Draft 可选，这里简单起见都校验必填项)
         if (!modal.data.pid || !modal.data.type) {
             alert("Patient ID and Sample Type are required.");
@@ -158,14 +174,14 @@ const SampleRegistration = () => {
             regDate: todayStr     // 需求点2: 自动更新录入时间
         };
 
-        setSamples(samples.map(s => s.id === modal.data.id ? updatedItem : s));
+        setSamples(prevSamples => prevSamples.map(s => s.id === modal.data.id ? updatedItem : s));
         closeModal();
-    };
+    }, [modal.data, closeModal]);
 
-    const handleJumpPage = () => {
+    const handleJumpPage = useCallback(() => {
         const page = parseInt(jumpPage);
         if (page >= 1 && page <= totalPages) { setCurrentPage(page); setJumpPage(''); }
-    };
+    }, [jumpPage, totalPages]);
 
     if (viewMode === 'single') return <SingleRegistrationForm onCancel={() => setViewMode('list')} onSubmit={() => setViewMode('list')} />;
     if (viewMode === 'bulk') return <BulkRegistrationForm onCancel={() => setViewMode('list')} />;
