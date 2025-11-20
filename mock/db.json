@@ -1,0 +1,26 @@
+{
+    "samples": [
+        {
+            "id": "SMP-2024-001",
+            "patient_id": "PT-001",
+            "sample_type": "Blood",
+            "collection_date": "2024-11-15",
+            "registration_date": "2024-11-20",
+            "institution": "General Hospital",
+            "status": "Submitted",
+            "doctor": "Dr. Smith"
+        },
+        {
+            "id": "SMP-2024-002",
+            "patient_id": "PT-002",
+            "sample_type": "Saliva",
+            "collection_date": "2024-11-16",
+            "registration_date": "2024-11-20",
+            "institution": "Research Center",
+            "status": "Draft",
+            "doctor": "Dr. Doe"
+        }
+    ],
+    "patients": [],
+    "tasks": []
+}
