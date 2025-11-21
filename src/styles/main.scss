@@ -1,69 +1,18 @@
+// 导入设计令牌（唯一来源）
+@import './design-tokens';
+
 // ================================
-// CSS Custom Properties (for inline styles in components)
+// CSS Custom Properties (for inline styles compatibility)
 // ================================
 :root {
-    --primary-color: #00897B;
-    --primary-hover: #00796B;
-    --bg-light: #F4F6F8;
-    --text-dark: #333;
-    --text-gray: #666;
-    --border-color: #E0E0E0;
+    --primary-color: #{$primary-color};
+    --primary-hover: #{$primary-dark};
+    --bg-light: #{$background-gray};
+    --text-dark: #{$text-primary};
+    --text-gray: #{$text-secondary};
+    --border-color: #{$border-color};
     --sidebar-width: 260px;
     --header-height: 64px;
-}
-
-// ================================
-// SCSS Variables (for use in stylesheets)
-// ================================
-$primary-color: #00897B;
-$primary-hover: #00796B;
-$bg-light: #F4F6F8;
-$text-dark: #333;
-$text-gray: #666;
-$border-color: #E0E0E0;
-$sidebar-width: 260px;
-$header-height: 64px;
-
-// Color palette
-$color-success-bg: #E8F5E9;
-$color-success-text: #2E7D32;
-$color-info-bg: #E3F2FD;
-$color-info-text: #1565C0;
-
-// Spacing
-$spacing-xs: 4px;
-$spacing-sm: 8px;
-$spacing-md: 16px;
-$spacing-lg: 24px;
-$spacing-xl: 32px;
-
-// Border radius
-$border-radius-sm: 4px;
-$border-radius-md: 8px;
-$border-radius-lg: 12px;
-$border-radius-pill: 20px;
-
-// Shadows
-$shadow-light: 0 2px 8px rgba(0, 0, 0, 0.05);
-$shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-// ================================
-// Mixins
-// ================================
-@mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@mixin flex-between {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-@mixin transition($property: all, $duration: 0.2s) {
-    transition: $property $duration ease;
 }
 
 // ================================
@@ -77,12 +26,12 @@ $shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: $bg-light;
-    color: $text-dark;
+    background-color: $background-gray;
+    color: $text-primary;
     line-height: 1.5;
 }
 
-// ================================
+//================================
 // Layout
 // ================================
 .layout-container {
@@ -92,160 +41,12 @@ body {
 
 .main-content {
     flex: 1;
-    margin-left: $sidebar-width;
+    margin-left: var(--sidebar-width);
     display: flex;
     flex-direction: column;
 }
 
 .page-container {
     padding: $spacing-lg;
-    margin-top: $header-height;
-}
-
-// ================================
-// Card Component
-// ================================
-.card {
-    background: white;
-    border-radius: $border-radius-md;
-    box-shadow: $shadow-light;
-    padding: $spacing-lg;
-    margin-bottom: $spacing-lg;
-    border: 1px solid $border-color;
-
-    &:hover {
-        box-shadow: $shadow-medium;
-        @include transition(box-shadow);
-    }
-}
-
-// ================================
-// Buttons
-// ================================
-.btn {
-    padding: $spacing-sm $spacing-md;
-    border-radius: $border-radius-pill;
-    border: none;
-    cursor: pointer;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: $spacing-sm;
-    @include transition(all, 0.2s);
-
-    &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    &-primary {
-        background: $primary-color;
-        color: white;
-
-        &:hover:not(:disabled) {
-            background: $primary-hover;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba($primary-color, 0.3);
-        }
-    }
-
-    &-outline {
-        background: white;
-        border: 1px solid $primary-color;
-        color: $primary-color;
-
-        &:hover:not(:disabled) {
-            background: rgba($primary-color, 0.05);
-        }
-    }
-}
-
-// ================================
-// Forms
-// ================================
-.form-row {
-    display: flex;
-    gap: $spacing-lg;
-    margin-bottom: $spacing-md;
-}
-
-.form-group {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-
-    label {
-        font-size: 14px;
-        font-weight: 600;
-        color: $text-dark;
-
-        span.required {
-            color: red;
-            margin-left: $spacing-xs;
-        }
-    }
-}
-
-.form-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: $border-radius-sm;
-    font-size: 14px;
-    @include transition(border-color);
-
-    &:focus {
-        outline: none;
-        border-color: $primary-color;
-        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
-    }
-
-    &:disabled {
-        background: #f5f5f5;
-        color: #888;
-        cursor: not-allowed;
-    }
-}
-
-// ================================
-// Utilities
-// ================================
-.text-center {
-    text-align: center;
-}
-
-.mt-sm {
-    margin-top: $spacing-sm;
-}
-
-.mt-md {
-    margin-top: $spacing-md;
-}
-
-.mt-lg {
-    margin-top: $spacing-lg;
-}
-
-.mb-sm {
-    margin-bottom: $spacing-sm;
-}
-
-.mb-md {
-    margin-bottom: $spacing-md;
-}
-
-.mb-lg {
-    margin-bottom: $spacing-lg;
-}
-
-.p-sm {
-    padding: $spacing-sm;
-}
-
-.p-md {
-    padding: $spacing-md;
-}
-
-.p-lg {
-    padding: $spacing-lg;
+    margin-top: var(--header-height);
 }

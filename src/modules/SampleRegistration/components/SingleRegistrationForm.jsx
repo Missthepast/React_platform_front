@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import CustomDatePicker from '../../../components/Shared/CustomDatePicker'; // 引入新组件
+import DatePicker from '../../../components/Shared/DatePicker';
 
 const SingleRegistrationForm = ({ onCancel, onSubmit }) => {
-    // 这里的状态仅用于演示 DatePicker 的值绑定
     const [dob, setDob] = useState('');
     const [colDate, setColDate] = useState('');
 
     return (
         <div className="card">
-            {/* Header 部分保持不变... */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', paddingBottom: '16px', borderBottom: '1px solid #eee' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: 'bold' }}>New Sample(s)</h3>
                 <button onClick={onCancel} className="btn btn-outline" style={{ padding: '6px 16px', borderRadius: '4px', fontSize: '14px' }}>
@@ -29,17 +27,14 @@ const SingleRegistrationForm = ({ onCancel, onSubmit }) => {
                 </div>
             </div>
 
-            {/* 修改这里：使用 CustomDatePicker */}
             <div className="form-row">
-                <div className="form-group">
-                    <CustomDatePicker
-                        label="DOB"
-                        required={true}
-                        value={dob}
-                        onChange={setDob}
-                        placeholder="Select Date of Birth"
-                    />
-                </div>
+                <DatePicker
+                    label="DOB"
+                    required={true}
+                    value={dob}
+                    onChange={setDob}
+                    placeholder="Select Date of Birth"
+                />
                 <div className="form-group">
                     <label>Gender <span className="required">*</span></label>
                     <select className="form-input">
@@ -62,7 +57,6 @@ const SingleRegistrationForm = ({ onCancel, onSubmit }) => {
                 </div>
             </div>
 
-            {/* 修改这里：使用 CustomDatePicker */}
             <div className="form-row">
                 <div className="form-group">
                     <label>Sample Type <span className="required">*</span></label>
@@ -72,14 +66,12 @@ const SingleRegistrationForm = ({ onCancel, onSubmit }) => {
                         <option value="Tissue">Tissue</option>
                     </select>
                 </div>
-                <div className="form-group">
-                    <CustomDatePicker
-                        label="Collection Date"
-                        value={colDate}
-                        onChange={setColDate}
-                        placeholder="Select Collection Date"
-                    />
-                </div>
+                <DatePicker
+                    label="Collection Date"
+                    value={colDate}
+                    onChange={setColDate}
+                    placeholder="Select Collection Date"
+                />
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '32px', paddingTop: '20px', borderTop: '1px solid #eee' }}>

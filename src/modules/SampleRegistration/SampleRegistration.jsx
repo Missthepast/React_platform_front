@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback, memo } from 'react';
 import { Plus, Upload as UploadIcon, Filter, Eye, Edit, Trash2, Search, X, ChevronUp, ChevronDown, AlertTriangle, ArrowUpDown } from 'lucide-react';
 import SingleRegistrationForm from './components/SingleRegistrationForm';
 import BulkRegistrationForm from './components/BulkRegistrationForm';
-import CustomDatePicker from '../../components/Shared/CustomDatePicker';
+import DatePicker from '../../components/Shared/DatePicker';
 
 // --- 1. 模拟数据生成 (优化：只保留 Draft 和 Submitted) ---
 const generateMockData = () => {
@@ -245,10 +245,12 @@ const SampleRegistration = () => {
                             <select className="form-input" style={{ background: 'white' }}><option>All statuses</option></select>
                         </div>
                         {/* 需求点2: 列表筛选中已有 Registration Date */}
-                        <div className="form-group" style={{ width: '180px' }}>
-                            <label style={{ fontSize: '12px', marginBottom: '4px' }}>Registration Date</label>
-                            <CustomDatePicker value={filterRegDate} onChange={setFilterRegDate} placeholder="yyyy-mm-dd" />
-                        </div>
+                        <DatePicker
+                            label="Registration Date"
+                            value={filterRegDate}
+                            onChange={setFilterRegDate}
+                            placeholder="yyyy-mm-dd"
+                        />
                         <div style={{ display: 'flex', gap: '8px', marginLeft: 'auto' }}>
                             <button className="btn" style={{ background: 'white', border: '1px solid #ddd', color: '#666' }} onClick={() => setFilterRegDate('')}>Clear</button>
                             <button className="btn btn-primary" style={{ borderRadius: '4px' }}><Search size={14} /> Apply Filters</button>
@@ -379,10 +381,11 @@ const SampleRegistration = () => {
                                     </div>
                                 </div>
                                 <div className="form-row">
-                                    <div className="form-group">
-                                        <label>Collection Date</label>
-                                        <CustomDatePicker value={modal.data.colDate} onChange={(date) => setModal({ ...modal, data: { ...modal.data, colDate: date } })} />
-                                    </div>
+                                    <DatePicker
+                                        label="Collection Date"
+                                        value={modal.data.colDate}
+                                        onChange={(date) => setModal({ ...modal, data: { ...modal.data, colDate: date } })}
+                                    />
                                     <div className="form-group">
                                         <label>Doctor</label>
                                         <input type="text" className="form-input" value={modal.data.doctor} onChange={(e) => setModal({ ...modal, data: { ...modal.data, doctor: e.target.value } })} />

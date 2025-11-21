@@ -1,7 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Sidebar from './components/Layout/Sidebar';
-import Header from './components/Layout/Header';
+import Sidebar from './components/Layout/Sidebar.tsx';
+import Header from './components/Layout/Header.tsx';
+import './styles/design-system.scss';
 import './styles/main.scss';
 
 // Lazy load page components for better performance
