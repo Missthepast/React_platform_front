@@ -1,86 +1,86 @@
-@import '@/styles/design-tokens';
+@use '@/styles/design-tokens' as *;
 
 // DatePicker 样式定制，使用设计系统
 .form-group {
-    :global {
-        .react-datepicker-wrapper {
-            width: 100%;
-        }
-
-        .react-datepicker__input-container {
-            width: 100%;
-        }
-
-        // 自定义日期选择器弹出框样式
-        .react-datepicker {
-            font-family: inherit;
-            border: 1px solid $border-color;
-            border-radius: $radius-md;
-            box-shadow: $shadow-md;
-        }
-
-        .react-datepicker__header {
-            background-color: $primary-color;
-            border-bottom: none;
-            border-radius: $radius-md $radius-md 0 0;
-            padding-top: $spacing-sm;
-        }
-
-        .react-datepicker__current-month,
-        .react-datepicker__day-name {
-            color: white;
-        }
-
-        .react-datepicker__day {
-            color: $text-primary;
-            border-radius: 50%;
-
-            &:hover {
-                background-color: rgba($primary-color, 0.1);
-                color: $primary-color;
-            }
-
-            &--selected,
-            &--keyboard-selected {
-                background-color: $primary-color;
-                color: white;
-                font-weight: 600;
-
-                &:hover {
-                    background-color: $primary-dark;
-                }
-            }
-
-            &--today {
-                border: 1px solid $primary-color;
-                font-weight: 600;
-                color: $primary-color;
-            }
-
-            &--disabled {
-                color: $text-disabled;
-                cursor: not-allowed;
-
-                &:hover {
-                    background-color: transparent;
-                }
-            }
-        }
-
-        .react-datepicker__triangle {
-            border-bottom-color: $primary-color !important;
-        }
-
-        .react-datepicker__today-button {
-            background: $background-gray;
-            border-top: 1px solid $divider-color;
-            color: $primary-color;
-            font-weight: 600;
-            padding: $spacing-sm;
-
-            &:hover {
-                background: rgba($primary-color, 0.05);
-            }
-        }
+  :global {
+    .react-datepicker-wrapper {
+      width: 100%;
     }
+
+    .react-datepicker__input-container {
+      width: 100%;
+    }
+
+    // 自定义日期选择器弹出框样式
+    .react-datepicker {
+      font-family: inherit;
+      border: 1px solid $border-color;
+      border-radius: $radius-md;
+      box-shadow: $shadow-md;
+    }
+
+    .react-datepicker__header {
+      background-color: $primary-color;
+      border-bottom: none;
+      border-radius: $radius-md $radius-md 0 0;
+      padding-top: $spacing-sm;
+    }
+
+    .react-datepicker__current-month,
+    .react-datepicker__day-name {
+      color: white;
+    }
+
+    .react-datepicker__day {
+      color: $text-primary;
+      border-radius: 50%;
+
+      &:hover {
+        background-color: rgba($primary-color, 0.1);
+        color: $primary-color;
+      }
+
+      &--selected,
+      &--keyboard-selected {
+        background-color: $primary-color;
+        color: white;
+        font-weight: 600;
+
+        &:hover {
+          background-color: $primary-dark;
+        }
+      }
+
+      &--today {
+        border: 1px solid $primary-color;
+        font-weight: 600;
+        color: $primary-color;
+      }
+
+      &--disabled {
+        color: $text-disabled;
+        cursor: not-allowed;
+
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+
+    .react-datepicker__triangle {
+      border-bottom-color: $primary-color !important;
+    }
+
+    .react-datepicker__today-button {
+      background: $background-gray;
+      border-top: 1px solid $divider-color;
+      color: $primary-color;
+      font-weight: 600;
+      padding: $spacing-sm;
+
+      &:hover {
+        background: rgba($primary-color, 0.05);
+      }
+    }
+  }
 }

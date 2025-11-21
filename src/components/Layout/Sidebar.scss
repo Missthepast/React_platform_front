@@ -1,59 +1,59 @@
-@import '@/styles/design-tokens';
+@use '@/styles/design-tokens' as *;
 
 .sidebar {
-    width: var(--sidebar-width);
-    position: fixed;
-    height: 100vh;
-    background: white;
-    border-right: 1px solid $border-color;
-    z-index: 100;
+  width: var(--sidebar-width);
+  position: fixed;
+  height: 100vh;
+  background: white;
+  border-right: 1px solid $border-color;
+  z-index: 100;
 
-    &__logo {
-        padding: $spacing-lg;
-        display: flex;
-        align-items: center;
-        gap: $spacing-sm;
+  &__logo {
+    padding: $spacing-lg;
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  &__nav {
+    margin-top: $spacing-lg;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      gap: $spacing-md;
+      padding: $spacing-md $spacing-lg;
+      text-decoration: none;
+      color: $text-primary;
+      background-color: transparent;
+      border-left: 4px solid transparent;
+      transition: all $transition-base;
+      cursor: pointer;
+
+      &:hover:not(&--active) {
+        background-color: $background-gray;
         color: $primary-color;
-        font-weight: bold;
-        font-size: 18px;
+      }
+
+      &--active {
+        color: white;
+        background-color: $primary-color;
+        border-left-color: $primary-dark;
+        font-weight: 500;
+      }
     }
 
-    &__nav {
-        margin-top: $spacing-lg;
-
-        &-item {
-            display: flex;
-            align-items: center;
-            gap: $spacing-md;
-            padding: $spacing-md $spacing-lg;
-            text-decoration: none;
-            color: $text-primary;
-            background-color: transparent;
-            border-left: 4px solid transparent;
-            transition: all $transition-base;
-            cursor: pointer;
-
-            &:hover:not(&--active) {
-                background-color: $background-gray;
-                color: $primary-color;
-            }
-
-            &--active {
-                color: white;
-                background-color: $primary-color;
-                border-left-color: $primary-dark;
-                font-weight: 500;
-            }
-        }
-
-        &-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        &-text {
-            flex: 1;
-        }
+    &-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    &-text {
+      flex: 1;
+    }
+  }
 }

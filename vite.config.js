@@ -1,13 +1,22 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   const isDev = command === 'serve';
+  // Force restart timestamp: 2025-11-21
+
 
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      visualizer({
+        filename: 'stats.html',
+        gzipSize: true,
+      })
+    ],
 
     // Path aliases
     resolve: {
@@ -45,11 +54,6 @@ export default defineConfig(({ command }) => {
             // React core libraries
             'react-vendor': ['react', 'react-dom', 'react-router-dom'],
 
-            // Ant Design libraries
-            'antd-vendor': ['antd', '@ant-design/icons', '@ant-design/pro-components'],
-
-            // Utility libraries
-            'utils-vendor': ['axios', 'lucide-react']
           },
 
           // Asset file naming

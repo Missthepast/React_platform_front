@@ -1,45 +1,45 @@
-@import '../design-tokens';
+@use '../design-tokens' as *;
 
 .btn {
-    padding: $spacing-sm $spacing-md;
-    border-radius: $radius-sm;
-    font-size: $font-size-base;
-    transition: all $transition-base;
-    cursor: pointer;
-    border: 1px solid transparent;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-sm;
+  font-size: $font-size-base;
+  transition: all $transition-base;
+  cursor: pointer;
+  border: 1px solid transparent;
 
-    &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .btn-primary {
-    background: $primary-color;
-    color: white;
+  background: $primary-color;
+  color: white;
 
-    &:hover:not(:disabled) {
-        background: $primary-dark;
-    }
+  &:hover:not(:disabled) {
+    background: $primary-dark;
+  }
 }
 
 .btn-secondary {
-    background: white;
-    color: $primary-color;
-    border-color: $primary-color;
+  background: white;
+  color: $primary-color;
+  border-color: $primary-color;
 
-    &:hover:not(:disabled) {
-        background: rgba($primary-color, 0.05);
-    }
+  &:hover:not(:disabled) {
+    background: rgba($primary-color, 0.05);
+  }
 }
 
 .btn-outline {
-    background: white;
-    color: $text-primary;
-    border-color: $border-color;
+  background: white;
+  color: $text-primary;
+  border-color: $border-color;
 
-    &:hover:not(:disabled) {
-        border-color: $primary-color;
-        color: $primary-color;
-    }
+  &:hover:not(:disabled) {
+    border-color: $primary-color;
+    color: $primary-color;
+  }
 }

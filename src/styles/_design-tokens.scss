@@ -1,47 +1,47 @@
 // 颜色系统
-$primary-color: #00897B;
-$primary-light: #4DB6AC;
-$primary-dark: #00695C;
+$primary-color: #00897b !default;
+$primary-light: #4db6ac !default;
+$primary-dark: #00695c !default;
 
-$success-color: #2E7D32;
-$warning-color: #F57C00;
-$error-color: #D32F2F;
-$info-color: #1565C0;
+$success-color: #2e7d32 !default;
+$warning-color: #f57c00 !default;
+$error-color: #d32f2f !default;
+$info-color: #1565c0 !default;
 
 // 中性色
-$text-primary: #333333;
-$text-secondary: #666666;
-$text-disabled: #999999;
+$text-primary: #333333 !default;
+$text-secondary: #666666 !default;
+$text-disabled: #999999 !default;
 
-$border-color: #E0E0E0;
-$divider-color: #F0F0F0;
-$background-gray: #F8F9FA;
+$border-color: #e0e0e0 !default;
+$divider-color: #f0f0f0 !default;
+$background-gray: #f8f9fa !default;
 
 // 间距系统（8px 基准）
-$spacing-xs: 4px;
-$spacing-sm: 8px;
-$spacing-md: 16px;
-$spacing-lg: 24px;
-$spacing-xl: 32px;
+$spacing-xs: 4px !default;
+$spacing-sm: 8px !default;
+$spacing-md: 16px !default;
+$spacing-lg: 24px !default;
+$spacing-xl: 32px !default;
 
 // 圆角
-$radius-sm: 4px;
-$radius-md: 8px;
-$radius-lg: 12px;
+$radius-sm: 4px !default;
+$radius-md: 8px !default;
+$radius-lg: 12px !default;
 
 // 阴影
-$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
-$shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1) !default;
+$shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12) !default;
+$shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15) !default;
 
 // 字体
-$font-size-xs: 12px;
-$font-size-sm: 13px;
-$font-size-base: 14px;
-$font-size-lg: 16px;
-$font-size-xl: 18px;
+$font-size-xs: 12px !default;
+$font-size-sm: 13px !default;
+$font-size-base: 14px !default;
+$font-size-lg: 16px !default;
+$font-size-xl: 18px !default;
 
 // 动画
-$transition-fast: 0.15s ease;
-$transition-base: 0.2s ease;
-$transition-slow: 0.3s ease;
+$transition-fast: 0.15s ease !default;
+$transition-base: 0.2s ease !default;
+$transition-slow: 0.3s ease !default;

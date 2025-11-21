@@ -1,52 +1,56 @@
-// 导入设计令牌（唯一来源）
-@import './design-tokens';
+// 使用现代 @use 语法导入设计令牌
+@use './design-tokens' as *;
 
 // ================================
 // CSS Custom Properties (for inline styles compatibility)
 // ================================
 :root {
-    --primary-color: #{$primary-color};
-    --primary-hover: #{$primary-dark};
-    --bg-light: #{$background-gray};
-    --text-dark: #{$text-primary};
-    --text-gray: #{$text-secondary};
-    --border-color: #{$border-color};
-    --sidebar-width: 260px;
-    --header-height: 64px;
+  --primary-color: #{$primary-color};
+  --primary-hover: #{$primary-dark};
+  --bg-light: #{$background-gray};
+  --text-dark: #{$text-primary};
+  --text-gray: #{$text-secondary};
+  --border-color: #{$border-color};
+  --sidebar-width: 260px;
+  --header-height: 64px;
 }
 
 // ================================
 // Base Styles
 // ================================
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: $background-gray;
-    color: $text-primary;
-    line-height: 1.5;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  background-color: $background-gray;
+  color: $text-primary;
+  line-height: 1.5;
 }
 
-//================================
+// ================================
 // Layout
 // ================================
 .layout-container {
-    display: flex;
-    min-height: 100vh;
+  display: flex;
+  min-height: 100vh;
 }
 
 .main-content {
-    flex: 1;
-    margin-left: var(--sidebar-width);
-    display: flex;
-    flex-direction: column;
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
 }
 
 .page-container {
-    padding: $spacing-lg;
-    margin-top: var(--header-height);
+  padding: $spacing-lg;
+  margin-top: var(--header-height);
 }
