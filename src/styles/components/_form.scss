@@ -1,0 +1,45 @@
+@import '../design-tokens';
+
+.form-group {
+    margin-bottom: $spacing-md;
+
+    label {
+        display: block;
+        margin-bottom: $spacing-xs;
+        font-size: $font-size-sm;
+        color: $text-secondary;
+        font-weight: 500;
+    }
+}
+
+.form-input {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: 1px solid $border-color;
+    border-radius: $radius-sm;
+    font-size: $font-size-base;
+    transition: border-color $transition-base;
+
+    &:focus {
+        outline: none;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
+    }
+
+    &:disabled {
+        background: $background-gray;
+        color: $text-disabled;
+        cursor: not-allowed;
+    }
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-md;
+}
+
+.required {
+    color: $error-color;
+    margin-left: $spacing-xs;
+}

@@ -1,0 +1,31 @@
+@import '@/styles/design-tokens';
+
+.common-data-table {
+    :global {
+        .ant-pro-table {
+            .ant-table {
+                font-size: $font-size-base;
+
+                .ant-table-thead>tr>th {
+                    padding: 12px;
+                    background: white;
+                    font-weight: 600;
+                    color: $text-secondary;
+                }
+
+                .ant-table-tbody>tr {
+                    cursor: pointer;
+                    transition: background-color $transition-base;
+
+                    &:hover {
+                        background-color: $background-gray;
+                    }
+
+                    >td {
+                        padding: 16px 12px;
+                    }
+                }
+            }
+        }
+    }
+}

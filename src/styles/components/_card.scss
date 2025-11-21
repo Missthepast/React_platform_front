@@ -1,0 +1,37 @@
+@import '../design-tokens';
+
+.card {
+    background: white;
+    border-radius: $radius-md;
+    box-shadow: $shadow-sm;
+    padding: $spacing-lg;
+
+    &-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-lg;
+        padding-bottom: $spacing-md;
+        border-bottom: 1px solid $divider-color;
+    }
+
+    &-title {
+        font-size: $font-size-xl;
+        font-weight: 600;
+        color: $text-primary;
+        margin: 0;
+    }
+
+    &-body {
+        // 内容区域
+    }
+
+    &-footer {
+        margin-top: $spacing-lg;
+        padding-top: $spacing-md;
+        border-top: 1px solid $divider-color;
+        display: flex;
+        justify-content: flex-end;
+        gap: $spacing-md;
+    }
+}

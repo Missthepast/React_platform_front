@@ -7,6 +7,7 @@ import './styles/main.scss';
 // Lazy load page components for better performance
 const SampleRegistration = lazy(() => import('./modules/SampleRegistration/SampleRegistration'));
 const UnderDevelopment = lazy(() => import('./pages/UnderDevelopment'));
+const DesignSystemDemo = lazy(() => import('./pages/DesignSystemDemo'));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -35,6 +36,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Navigate to="/sample-registration" replace />} />
                 <Route path="/sample-registration" element={<SampleRegistration />} />
+                <Route path="/design-system" element={<DesignSystemDemo />} />
                 <Route path="/case-setting" element={<UnderDevelopment title="Case Setting-up" />} />
                 <Route path="/dashboard" element={<UnderDevelopment title="Test Dashboard" />} />
                 <Route path="/analyzer" element={<UnderDevelopment title="Data Analyzer" />} />
