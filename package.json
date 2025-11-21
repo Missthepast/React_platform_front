@@ -20,6 +20,8 @@
     "mock": "json-server --watch mock/db.json --port 3001"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.21.3",
+    "@tanstack/react-virtual": "^3.13.12",
     "axios": "^1.13.2",
     "lucide-react": "^0.554.0",
     "react": "^19.2.0",

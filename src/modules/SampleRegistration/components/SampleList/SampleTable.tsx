@@ -107,7 +107,6 @@ const SampleTable: React.FC<SampleTableProps> = ({
                       e.stopPropagation();
                       onDetails(row);
                     }}
-                    title="Details"
                   />
                   <Edit
                     size={18}
@@ -115,7 +114,6 @@ const SampleTable: React.FC<SampleTableProps> = ({
                       e.stopPropagation();
                       onEdit(row);
                     }}
-                    title="Modify"
                   />
                   <Trash2
                     size={18}
@@ -124,7 +122,6 @@ const SampleTable: React.FC<SampleTableProps> = ({
                       e.stopPropagation();
                       onDelete(row);
                     }}
-                    title="Delete"
                   />
                 </div>
               </td>
